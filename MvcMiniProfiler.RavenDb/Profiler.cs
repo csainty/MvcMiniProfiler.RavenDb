@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MvcMiniProfiler;
 using Raven.Client.Connection;
 using Raven.Client.Connection.Profiling;
 using Raven.Client.Document;
@@ -16,7 +13,7 @@ namespace MvcMiniProfiler.RavenDb
 		public static void AttachTo(DocumentStore store) {
 			store.SessionCreatedInternal += TrackSession;
 			store.JsonRequestFactory.ConfigureRequest += BeginRequest;
-			store.JsonRequestFactory.LogRequest += EndREquest;
+			store.JsonRequestFactory.LogRequest += EndRequest;
 		}
 
 		private static void TrackSession(InMemoryDocumentSessionOperations obj) {
@@ -27,7 +24,7 @@ namespace MvcMiniProfiler.RavenDb
 			_Requests.Add(e.Request.RequestUri.PathAndQuery, MvcMiniProfiler.MiniProfiler.Current.Step("RavenDb: Query - " + e.Request.RequestUri.PathAndQuery));
 		}
 
-		private static void EndREquest(object sender, RequestResultArgs e) {
+		private static void EndRequest(object sender, RequestResultArgs e) {
 			IDisposable request;
 			if (_Requests.TryGetValue(e.Url, out request))
 				request.Dispose();

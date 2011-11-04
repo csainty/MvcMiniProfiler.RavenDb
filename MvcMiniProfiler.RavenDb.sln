@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniProfiler.RavenDb", "MvcMiniProfiler.RavenDb\MiniProfiler.RavenDb.csproj", "{37BD2583-C5E3-4918-B6B9-7666E754CB9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcMiniProfiler.RavenDb", "MvcMiniProfiler.RavenDb\MvcMiniProfiler.RavenDb.csproj", "{37BD2583-C5E3-4918-B6B9-7666E754CB9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

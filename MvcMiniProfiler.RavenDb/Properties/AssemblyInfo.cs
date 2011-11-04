@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MiniProfiler.RavenDb")]
+[assembly: AssemblyTitle("MvcMiniProfiler.RavenDb")]
 [assembly: AssemblyDescription("RavenDb plugin for MiniProfiler")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MiniProfiler.RavenDb")]
+[assembly: AssemblyProduct("MvcMiniProfiler.RavenDb")]
 [assembly: AssemblyCopyright("Copyright ©  2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

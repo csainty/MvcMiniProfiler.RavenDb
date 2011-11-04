@@ -1,0 +1,5 @@
+
+packages
+MvcMiniProfiler.RavenDb/obj
+MvcMiniProfiler.RavenDb/bin
+*.suo

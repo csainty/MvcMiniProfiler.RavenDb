@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Raven.Client.Connection;
 using Raven.Client.Connection.Profiling;
@@ -8,7 +9,7 @@ namespace MvcMiniProfiler.RavenDb
 {
 	public class Profiler
 	{
-		private static Dictionary<string, IDisposable> _Requests = new Dictionary<string, IDisposable>();
+		private static ConcurrentDictionary<string, IDisposable> _Requests = new ConcurrentDictionary<string, IDisposable>();
 
 		public static void AttachTo(DocumentStore store) {
 			store.SessionCreatedInternal += TrackSession;
@@ -21,12 +22,12 @@ namespace MvcMiniProfiler.RavenDb
 		}
 
 		private static void BeginRequest(object sender, WebRequestEventArgs e) {
-			_Requests.Add(e.Request.RequestUri.PathAndQuery, MvcMiniProfiler.MiniProfiler.Current.Step("RavenDb: Query - " + e.Request.RequestUri.PathAndQuery));
+			_Requests.TryAdd(e.Request.RequestUri.PathAndQuery, MvcMiniProfiler.MiniProfiler.Current.Step("RavenDb: Query - " + e.Request.RequestUri.PathAndQuery));
 		}
 
 		private static void EndRequest(object sender, RequestResultArgs e) {
 			IDisposable request;
-			if (_Requests.TryGetValue(e.Url, out request))
+			if (_Requests.TryRemove(e.Url, out request))
 				request.Dispose();
 		}
 	}

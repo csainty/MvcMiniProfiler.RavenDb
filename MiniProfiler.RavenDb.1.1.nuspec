@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>MiniProfiler.RavenDb</id>
+    <version>1.1</version>
+    <title>RavenDb plugin for MiniProfiler</title>
+    <authors>csainty</authors>
+    <owners />
+    <projectUrl>https://github.com/csainty/MvcMiniProfiler.RavenDb</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Adds entries for each RavenDb query to the MiniProfiler results table.</description>
+    <summary />
+    <dependencies>
+      <dependency id="MiniProfiler" version="1.9" />
+      <dependency id="RavenDB" version="1.0.531" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="content\MiniProfiler.RavenDb.Readme.txt" target="content\MiniProfiler.RavenDb.Readme.txt" />
+    <file src="lib\MvcMiniProfiler.RavenDb.dll" target="lib\MvcMiniProfiler.RavenDb.dll" />
+    <file src="lib\MvcMiniProfiler.RavenDb.pdb" target="lib\MvcMiniProfiler.RavenDb.pdb" />
+  </files>
+</package>

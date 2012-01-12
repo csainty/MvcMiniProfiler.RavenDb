@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Raven.Client.Connection;
 using Raven.Client.Connection.Profiling;
 using Raven.Client.Document;
+using Raven.Client;
 
 namespace MvcMiniProfiler.RavenDb
 {
@@ -11,7 +12,7 @@ namespace MvcMiniProfiler.RavenDb
 	{
 		private static ConcurrentDictionary<string, IDisposable> _Requests = new ConcurrentDictionary<string, IDisposable>();
 
-		public static void AttachTo(DocumentStore store) {
+		public static void AttachTo(IDocumentStore store) {
 			store.SessionCreatedInternal += TrackSession;
 			store.JsonRequestFactory.ConfigureRequest += BeginRequest;
 			store.JsonRequestFactory.LogRequest += EndRequest;

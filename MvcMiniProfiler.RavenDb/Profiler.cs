@@ -16,11 +16,13 @@ namespace MvcMiniProfiler.RavenDb
             store.SessionCreatedInternal += TrackSession;
             store.JsonRequestFactory.ConfigureRequest += BeginRequest;
             store.JsonRequestFactory.LogRequest += EndRequest;
+            store.AfterDispose += AfterDispose;
         }
 
         private static void TrackSession(InMemoryDocumentSessionOperations obj)
         {
-            MvcMiniProfiler.MiniProfiler.Current.Step("RavenDb: Created Session").Dispose();
+            var step = MvcMiniProfiler.MiniProfiler.Current.Step("RavenDb: Created Session");
+            if (step != null) step.Dispose();
         }
 
         private static void BeginRequest(object sender, WebRequestEventArgs e)
@@ -32,7 +34,23 @@ namespace MvcMiniProfiler.RavenDb
         {
             IDisposable request;
             if (_Requests.TryRemove(e.Url, out request))
-                request.Dispose();
+                if (request != null) request.Dispose();
+        }
+
+        private static void AfterDispose(object sender, EventArgs e)
+        {
+            var store = sender as DocumentStore;
+            if (store != null)
+            {
+                store.SessionCreatedInternal -= TrackSession;
+                store.AfterDispose -= AfterDispose;
+
+                if (store.JsonRequestFactory != null)
+                {
+                    store.JsonRequestFactory.ConfigureRequest -= BeginRequest;
+                    store.JsonRequestFactory.LogRequest -= EndRequest;
+                }
+            }
         }
     }
 }

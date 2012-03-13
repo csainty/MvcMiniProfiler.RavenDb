@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using Raven.Client.Connection;
 using Raven.Client.Connection.Profiling;
 using Raven.Client.Document;
@@ -14,20 +13,29 @@ namespace MvcMiniProfiler.RavenDb
         public static void AttachTo(DocumentStore store)
         {
             store.SessionCreatedInternal += TrackSession;
-            store.JsonRequestFactory.ConfigureRequest += BeginRequest;
-            store.JsonRequestFactory.LogRequest += EndRequest;
             store.AfterDispose += AfterDispose;
+
+            if (store.JsonRequestFactory != null)
+            {
+                store.JsonRequestFactory.ConfigureRequest += BeginRequest;
+                store.JsonRequestFactory.LogRequest += EndRequest;
+            }
         }
 
         private static void TrackSession(InMemoryDocumentSessionOperations obj)
         {
-            var step = MvcMiniProfiler.MiniProfiler.Current.Step("RavenDb: Created Session");
-            if (step != null) step.Dispose();
+            var profiler = MvcMiniProfiler.MiniProfiler.Current;
+            if (profiler != null)
+            {
+                using (profiler.Step("RavenDb: Created Session")) { }
+            }
         }
 
         private static void BeginRequest(object sender, WebRequestEventArgs e)
         {
-            _Requests.TryAdd(e.Request.RequestUri.PathAndQuery, MvcMiniProfiler.MiniProfiler.Current.Step("RavenDb: Query - " + e.Request.RequestUri.PathAndQuery));
+            var profiler = MvcMiniProfiler.MiniProfiler.Current;
+            if (profiler != null && e.Request != null)
+                _Requests.TryAdd(e.Request.RequestUri.PathAndQuery, profiler.Step("RavenDb: Query - " + e.Request.RequestUri.PathAndQuery));
         }
 
         private static void EndRequest(object sender, RequestResultArgs e)

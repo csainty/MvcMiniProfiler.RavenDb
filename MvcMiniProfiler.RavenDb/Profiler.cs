@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using Raven.Client.Connection;
 using Raven.Client.Connection.Profiling;
 using Raven.Client.Document;
+using StackExchange.Profiling;
 
 namespace MvcMiniProfiler.RavenDb
 {
@@ -12,6 +13,8 @@ namespace MvcMiniProfiler.RavenDb
 
         public static void AttachTo(DocumentStore store)
         {
+            if (store == null)
+                return;
             store.SessionCreatedInternal += TrackSession;
             store.AfterDispose += AfterDispose;
 
@@ -24,16 +27,12 @@ namespace MvcMiniProfiler.RavenDb
 
         private static void TrackSession(InMemoryDocumentSessionOperations obj)
         {
-            var profiler = MvcMiniProfiler.MiniProfiler.Current;
-            if (profiler != null)
-            {
-                using (profiler.Step("RavenDb: Created Session")) { }
-            }
+            using (MiniProfiler.Current.Step("RavenDb: Created Session")) { }
         }
 
         private static void BeginRequest(object sender, WebRequestEventArgs e)
         {
-            var profiler = MvcMiniProfiler.MiniProfiler.Current;
+            var profiler = MiniProfiler.Current;
             if (profiler != null && e.Request != null)
                 _Requests.TryAdd(e.Request.RequestUri.PathAndQuery, profiler.Step("RavenDb: Query - " + e.Request.RequestUri.PathAndQuery));
         }

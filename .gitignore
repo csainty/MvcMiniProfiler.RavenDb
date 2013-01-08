@@ -4,3 +4,4 @@ MvcMiniProfiler.RavenDb/obj
 MvcMiniProfiler.RavenDb/bin
 *.suo
 *.ncrunchsolution.user
+*.nupkg

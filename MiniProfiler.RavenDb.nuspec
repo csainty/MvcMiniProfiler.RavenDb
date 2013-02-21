@@ -7,7 +7,7 @@
     <projectUrl>http://csainty.github.com/MvcMiniProfiler.RavenDb/</projectUrl>
     <dependencies>
       <dependency id="MiniProfiler" version="2.0.2" />
-      <dependency id="RavenDB.Client" version="2.0.2230" />
+      <dependency id="RavenDB.Client" version="2.0.2261" />
     </dependencies>
     <id>MiniProfiler.RavenDb</id>
     <title>RavenDb plugin for MiniProfiler</title>

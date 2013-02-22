@@ -5,3 +5,4 @@ MvcMiniProfiler.RavenDb/bin
 *.suo
 *.ncrunchsolution.user
 *.nupkg
+*.dotsettings

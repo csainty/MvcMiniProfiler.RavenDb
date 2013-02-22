@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using Raven.Client.Connection;
+using Raven.Abstractions.Connection;
 using Raven.Client.Connection.Profiling;
 using Raven.Client.Document;
 using StackExchange.Profiling;
